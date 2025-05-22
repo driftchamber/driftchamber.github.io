@@ -4,23 +4,20 @@
 <!-- UIkit CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.20/dist/css/uikit.min.css" />
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub RAR.</p>
 
 <div class="uk-child-width-expand@s uk-text-center" uk-grid>
     <div>
         <div class="uk-card uk-card-default uk-card-body">Item</div>
     </div>
     <div>
-        <div class="uk-card uk-card-default uk-card-body">Item</div>
+        <div class="uk-card uk-card-default uk-card-body"><textarea id="input" class="uk-textarea"></textarea>
+</div>
     </div>
     <div>
         <div class="uk-card uk-card-default uk-card-body">Item</div>
     </div>
 </div>
 
-<input id="input" type="text">
-<button id="save">SAVES</button>
 
 </body>
 
@@ -41,7 +38,7 @@ function loadValue() {
 }
 
 // Save value on button click
-document.getElementById('save').addEventListener('click', saveValue);
+document.addEventListener('keydown', saveValue);
 
 // Load value on page load
 document.addEventListener('DOMContentLoaded', loadValue);
