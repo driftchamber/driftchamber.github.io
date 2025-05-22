@@ -19,6 +19,32 @@
     </div>
 </div>
 
+<input id="input" type="text">
+<button id="save">Save</button>
 
 </body>
+
+
+<script>
+// Function to save value
+function saveValue() {
+  const value = document.getElementById('input').value;
+  localStorage.setItem('key', value);
+}
+
+// Function to load value
+function loadValue() {
+  const savedValue = localStorage.getItem('key');
+  if (savedValue) {
+    document.getElementById('input').value = savedValue;
+  }
+}
+
+// Save value on button click
+document.getElementById('save').addEventListener('click', saveValue);
+
+// Load value on page load
+document.addEventListener('DOMContentLoaded', loadValue);
+
+</script>
 </html>
