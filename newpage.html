@@ -53,7 +53,14 @@
             push(ref(database, 'names'), name);
             form.reset();
 
-                        const namesRef = ref(database, 'names');
+                      
+
+
+
+
+        });
+
+          const namesRef = ref(database, 'names');
     onValue(namesRef, (snapshot) => {
         if (snapshot.exists()) {
             const names = snapshot.val();
@@ -71,11 +78,6 @@
         console.error(error);
         namesContainer.textContent = 'Error fetching names';
     });
-
-
-
-
-        });
     </script>
 </body>
 </html>
