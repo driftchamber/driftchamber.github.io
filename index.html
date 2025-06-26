@@ -69,27 +69,5 @@
 </body>
 
 
-<script>
-// Function to save value
-function saveValue() {
-  const value = document.getElementById('input').innerHTML;
-  localStorage.setItem('key', value);
-  console.log(value);
-}
 
-// Function to load value
-function loadValue() {
-  const savedValue = localStorage.getItem('key');
-  if (savedValue) {
-   //document.getElementById('input').innerHTML = savedValue;
-  }
-}
-
-// Save value on button click
-document.addEventListener('mousemove', saveValue);
-
-// Load value on page load
-document.addEventListener('DOMContentLoaded', loadValue);
-
-</script>
 </html>
