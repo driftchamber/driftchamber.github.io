@@ -6,13 +6,14 @@
     <title>Firebase Form</title>
 </head>
 <body>
-    <form id="myForm">
-        <label for="name">Message:</label>
-        <input style="width:50%" type="text" id="name" name="name"><br><br>
+       <form id="myForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="message">Message:</label>
+        <input type="text" id="message" name="message"><br><br>
         <input type="submit" value="Submit">
     </form>
-
-        <div id="namesContainer"></div>
+    <div id="messages"></div>
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
@@ -47,37 +48,52 @@
         const form = document.getElementById('myForm');
 
         // Add an event listener to the form submission
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            push(ref(database, 'names'), name);
-            form.reset();
+// Handle form submission
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-                      
+    // Get the values from the form
+    const name = document.getElementById('name').value;
+    const message = document.getElementById('message').value;
 
-
-
-
-        });
-
-          const namesRef = ref(database, 'names');
-    onValue(namesRef, (snapshot) => {
-        if (snapshot.exists()) {
-            const names = snapshot.val();
-            const namesList = Object.values(names);
-            namesContainer.innerHTML = '';
-            namesList.forEach((name) => {
-                const p = document.createElement('p');
-                p.textContent = name;
-                namesContainer.appendChild(p);
-            });
-        } else {
-            namesContainer.textContent = 'No names found';
-        }
-    }, (error) => {
-        console.error(error);
-        namesContainer.textContent = 'Error fetching names';
+    // Save the data to the database
+    const messagesRef = ref(database, 'messages');
+    push(messagesRef, {
+        name: name,
+        message: message
+    })
+    .then(() => {
+        console.log('Data saved successfully');
+        // Clear the form fields
+        document.getElementById('message').value = '';
+    })
+    .catch((error) => {
+        console.error('Error saving data:', error);
     });
+});
+
+
+
+
+const messagesElement = document.getElementById('messages');
+// Get a reference to the messages node
+const messagesRef = ref(database, 'messages');
+
+// Listen for changes to the messages node
+onValue(messagesRef, (snapshot) => {
+    const messages = snapshot.val();
+    let messagesHtml = '';
+
+    if (messages) {
+        Object.keys(messages).forEach((key) => {
+            const message = messages[key];
+            messagesHtml += `<p><strong>${message.name}:</strong> ${message.message}</p>`;
+        });
+    }
+
+    messagesElement.innerHTML = messagesHtml;
+});
+
     </script>
 </body>
 </html>
