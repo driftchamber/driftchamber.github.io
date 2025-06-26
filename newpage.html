@@ -1,24 +1,83 @@
 <!DOCTYPE html>
-<html>
-    <script type='text/javascript' src="https://cdn.jsdelivr.net/npm/uikit@3.6.20/dist/js/uikit.min.js"></script>
-<!-- UIkit CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.20/dist/css/uikit.min.css" />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Form</title>
+</head>
 <body>
-<h1>Hello RAR</h1>
-<p>I'm hosted with GitHub RAR.</p>
+    <form id="myForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <input type="submit" value="Submit">
+    </form>
 
-<div class="uk-child-width-expand@s uk-text-center" uk-grid>
-    <div>
-        <div class="uk-card uk-card-default uk-card-body">Item</div>
-    </div>
-    <div>
-        <div class="uk-card uk-card-default uk-card-body">Item</div>
-    </div>
-    <div>
-        <div class="uk-card uk-card-default uk-card-body">Item</div>
-    </div>
-</div>
+        <div id="namesContainer"></div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
+        import { getDatabase, ref, push, onValue, child, get } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js';
+
+        // Your Firebase config goes here
+        const firebaseConfig = {
+
+    apiKey: "AIzaSyCoEItzDWxMZ44Y2MPqDygEr-5tm-nCu90",
+
+    authDomain: "fir-test-8dcc5.firebaseapp.com",
+
+    databaseURL: "https://fir-test-8dcc5-default-rtdb.firebaseio.com",
+
+    projectId: "fir-test-8dcc5",
+
+    storageBucket: "fir-test-8dcc5.firebasestorage.app",
+
+    messagingSenderId: "418520959029",
+
+    appId: "1:418520959029:web:53f1ff8f40bc96c9f3c97c"
+
+  };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Get a reference to the database
+        const database = getDatabase(app);
+
+        // Get the form element
+        const form = document.getElementById('myForm');
+
+        // Add an event listener to the form submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            push(ref(database, 'names'), name);
+            form.reset();
+
+                        const namesRef = ref(database, 'names');
+    onValue(namesRef, (snapshot) => {
+        if (snapshot.exists()) {
+            const names = snapshot.val();
+            const namesList = Object.values(names);
+            namesContainer.innerHTML = '';
+            namesList.forEach((name) => {
+                const p = document.createElement('p');
+                p.textContent = name;
+                namesContainer.appendChild(p);
+            });
+        } else {
+            namesContainer.textContent = 'No names found';
+        }
+    }, (error) => {
+        console.error(error);
+        namesContainer.textContent = 'Error fetching names';
+    });
 
 
+
+
+        });
+    </script>
 </body>
 </html>
+
+          
