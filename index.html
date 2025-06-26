@@ -5,12 +5,54 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.20/dist/css/uikit.min.css" />
 <body>
 
+<!-- Firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
+<!-- or -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+
+<!-- Initialize Firebase -->
+<script>
+  const firebaseConfig = {
+
+    apiKey: "AIzaSyCoEItzDWxMZ44Y2MPqDygEr-5tm-nCu90",
+
+    authDomain: "fir-test-8dcc5.firebaseapp.com",
+
+    databaseURL: "https://fir-test-8dcc5-default-rtdb.firebaseio.com",
+
+    projectId: "fir-test-8dcc5",
+
+    storageBucket: "fir-test-8dcc5.firebasestorage.app",
+
+    messagingSenderId: "418520959029",
+
+    appId: "1:418520959029:web:53f1ff8f40bc96c9f3c97c"
+
+  };
+
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database(); // or firebase.firestore();
+</script>
+
+
+
+
   <style>
 
     .uk-card{
       background-size:contain;
     }
   </style>
+
+
+<form id="myForm">
+  <input type="email" id="email" placeholder="Enter your email">
+  <button type="submit">Submit</button>
+</form>
+
+
 
 <ul style="width:800px;margin:0 auto;" id="input" class="uk-grid-small uk-child-width-1-2 uk-child-width-1-4@s" uk-sortable="handle: .uk-card" uk-grid>
     <li class="item">
@@ -64,6 +106,27 @@
 </ul>
 
 
+
+<script>
+
+    const form = document.getElementById("myForm");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+
+  // Write data to Firebase Realtime Database or Firestore
+  if (db) {
+    // Realtime Database
+    db.ref("emails").push({ email: email });
+    // or Firestore
+    db.collection("emails").add({ email: email })
+      .then(() => console.log("Email added successfully"))
+      .catch((error) => console.error("Error adding email:", error));
+  }
+});
+
+</script>
 
 
 </body>
