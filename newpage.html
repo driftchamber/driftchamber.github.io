@@ -94,6 +94,17 @@ onValue(messagesRef, (snapshot) => {
     messagesElement.innerHTML = messagesHtml;
 });
 
+
+        function logout() {
+  signOut(auth)
+    .then(() => {
+      console.log("User logged out successfully");
+      window.location.href = "login.html"; // redirect to login page
+    })
+    .catch((error) => {
+      console.error("Error logging out:", error);
+    });
+}
     </script>
 </body>
 </html>
