@@ -38,6 +38,17 @@
 
   };
 
+                function logout() {
+  signOut(auth)
+    .then(() => {
+      console.log("User logged out successfully");
+      window.location.href = "login.html"; // redirect to login page
+    })
+    .catch((error) => {
+      console.error("Error logging out:", error);
+    });
+}
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
 
@@ -72,16 +83,7 @@ form.addEventListener('submit', (e) => {
     });
 });
 
-        function logout() {
-  signOut(auth)
-    .then(() => {
-      console.log("User logged out successfully");
-      window.location.href = "login.html"; // redirect to login page
-    })
-    .catch((error) => {
-      console.error("Error logging out:", error);
-    });
-}
+
 
 
 const messagesElement = document.getElementById('messages');
